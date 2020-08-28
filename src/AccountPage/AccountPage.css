@@ -1,0 +1,24 @@
+.plant-of-the-day {
+    background-color:#dddddd;
+    border-radius:10px;
+    width:100%;
+}
+
+.potd-img {
+    border:1px solid black;
+    padding: 10px;
+    text-align:center;
+    margin: 0px 10px 10px 0px;
+    
+}
+
+.weather-today {
+    background-color:#d6d6d6;
+    border-radius:10px;
+    width:100%;
+    margin-top:25px;
+}
+
+.zipForm {
+    margin-left:50px;
+}

@@ -1,0 +1,36 @@
+.calendar-page {
+	width:100%;
+	padding:10px;	
+}
+
+h4 {
+    font-size:24px;
+	margin-left:10px;
+}
+
+.plantCalendar td {
+	text-align:center;
+	width:14%;
+}
+
+td.dayHeader {
+	background-color:#666666;
+	color:white;
+	padding:5px;
+}
+
+td.day {
+	border:1px solid black;
+	height:85px;
+	position:relative;
+}
+
+.calDay {
+	position:absolute;
+	top:0px;
+	right:3px;
+	font-size:14px;
+	width:15px;
+	height:15px;
+}
+

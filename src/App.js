@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
+
+import Header from './Header/Header';
+import Nav from './Nav/Nav';
+import Footer from './Footer/Footer';
+import HomePage from './HomePage/HomePage';
+import PlantIndexPage from './PlantIndexPage/PlantIndexPage';
+import PlantCard from './PlantCardPage/PlantCardPage';
+import CalendarPage from './CalendarPage/CalendarPage';
+import CalendarNotes from './CalendarNotes/CalendarNotes';
+import Account from './AccountPage/AccountPage';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  render(){
+    return (
+      <div className='App'>
+        <Header/>
+        <Nav/>
+        <main>
+              <Switch>
+                <Route exact path='/' key='home' component={HomePage}/>
+
+                <Route key='plants' path='/plants' component={PlantIndexPage}/>
+
+                <Route key='calendar' path='/calendar' component={CalendarPage}/>
+
+                <Route key='calendarNotes' path='/calendarNotes/:day' component={CalendarNotes}/>
+
+		            <Route key='plantcard' path='/plantcard/:plantId' component={PlantCard}/>
+
+		            <Route key='account' path='/account' component={Account}/>
+              </Switch>
+        </main>
+        <Footer/>
+      </div>
+    )
+  }
 }
 
 export default App;

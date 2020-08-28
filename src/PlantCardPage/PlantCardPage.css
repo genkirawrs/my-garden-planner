@@ -1,0 +1,16 @@
+.plant-card-page {
+        width:100%;
+}
+
+h4 {
+        font-size:24px;
+	margin-left:10px;
+}
+
+.fav-star-gold{
+	color:#fcba04;
+}
+
+.fav-star-grey {
+	color:#666666;
+}

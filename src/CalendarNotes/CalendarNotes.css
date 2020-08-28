@@ -1,0 +1,28 @@
+.calendar-note {
+	width:100%;
+	padding:10px;	
+}
+
+h4 {
+    font-size:24px;
+	margin-left:10px;
+}
+
+.addNoteContainer {
+	background-color:#dddddd;
+	padding:5px 10px 25px 10px;
+	margin-top:50px;
+}
+
+.addNoteField {
+	width:80%;
+	height:150px;
+}
+
+.calendar-note ul {
+	list-style: circle;
+}
+
+.calendar-note ul li {
+	margin-bottom:10px;
+}
