@@ -58,7 +58,7 @@ class PlantCardPage extends Component {
         })
         .then( res => {
 	  if( res.id ){
-            this.setState({isFav: 1, favInfo: res})
+            this.setState({isFav: 1, favInfo: res, noteUpdateStatus:''})
 	  }
         })
         .catch(error => this.setState({error}))
@@ -82,7 +82,7 @@ class PlantCardPage extends Component {
           return res.json()
         })
         .then( res => {
-            this.setState({isFav: 1, favInfo: res})
+            this.setState({isFav: 1, favInfo: res, noteUpdateStatus:''})
 	    this.getFavInfo()
         })
         .catch(error => this.setState({error}))
@@ -111,16 +111,21 @@ class PlantCardPage extends Component {
 
   renderFavNotes = () => {
     const favInfo = this.state.favInfo
+	let notes = favInfo.notes
+	if( notes ===  null ){
+	    notes = ''
+	}
+console.log(favInfo);
 	return (
 	    <blockquote> 
 	    
             <div id='currentNotes'>
-              { favInfo.notes.length > 0 ? <h3>Current Notes</h3> : ''}
+              { favInfo.notes !== '' ? <h3>Current Notes</h3> : ''}
 	      {favInfo.notes}
 	      <br/><br/>
             </div>
 	    <form onSubmit={this.favFormSubmit}>
-		{ favInfo.notes.length > 0 ? <h3>Notes</h3> : <h3>You've added this plant to your favorites, would you like to add any notes?</h3>}
+		{ favInfo.notes !== '' ? <h3>Notes</h3> : <h3>You've added this plant to your favorites, would you like to add any notes?</h3>}
 		<textarea className='addNoteField' name='favNotesField' id='favNotesField' defaultValue={favInfo.notes}></textarea>
 		<br/><input type='submit' value='Save Notes'/>
 		<br/>{this.state.noteUpdateStatus !== "" ? this.state.noteUpdateStatus : ''}
