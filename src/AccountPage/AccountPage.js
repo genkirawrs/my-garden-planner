@@ -1,34 +1,160 @@
 import React, { Component } from 'react'
+import config from '../config';
 import './AccountPage.css'
 
 class AccountPage extends Component {
-	state = {
-		zipFormShow: 0
+  state = {
+    zipFormShow: 0,
+    userId: 1,//demo uid
+    zipcode: '',
+    zoneInfo: '',
+    error: null,
+    zipUpdateStatus: '',
+  }
+
+  componentDidMount() {
+    this.getUserById()
+  }
+
+  getUserById = () => {
+    return fetch(`${config.API_ENDPOINT}/account/${this.state.userId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      }})
+      .then(res =>{
+        if(!res.ok){
+	    throw new Error(res.status)
+	}
+	return res.json()
+      })
+      .then( res => this.setInfo(res.zipcode))
+      .catch(error => this.setState({error}))
+  }
+
+  updateUserZipcode = (userId,zipcode) => {
+    return fetch(`${config.API_ENDPOINT}/account/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        zipcode: zipcode
+      }),
+    })
+      .then(res =>{
+        if(!res.ok){
+            throw new Error(res.status)
+        }
+	if(res.status === 204){
+	    this.setState({zipUpdateStatus:'',zipcode:zipcode, zipFormShow:0})
+	    this.getUserZone()
+	}else{
+	    this.setState({zipUpdateStatus: 'Sorry, there was an error. Please try again later.'})
+	}
+      })
+  }
+
+  getUserZone = () => {
+    if( this.state.zipcode !== '' ){
+      return fetch(`${config.API_ENDPOINT}/account/zone/${this.state.zipcode}`, {
+       method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        }})
+      .then(res =>{
+        if(!res.ok){
+            throw new Error(res.status)
+        } 
+        return res.json()
+      })
+      .then( res => this.setZone(res))
+      .catch()
+    }
+  }
+
+  setZone = info => {
+	this.setState({zoneInfo: info})
+  }
+
+  setInfo = zipcode => {
+	this.setState({zipcode})
+	this.getUserZone(zipcode)
+  }
+
+  showZipForm = () => {
+    this.setState({zipFormShow:1})
+  }
+
+  hideZipForm = () => {
+    this.setState({zipFormShow:0})
+  }
+
+  renderZoneInfo = () => {
+	const zone = this.state.zoneInfo
+	return(
+            <blockquote><br/><br/>
+                <strong>Your Plant Hardiness Zone: {zone.zone}</strong>
+		<p>{zone.zone_description}</p>
+		Zone Hardy to about: {zone.zone_hardiness}<br/><br/>
+		First Frost Date Range: {zone.zone_first_frost}<br/><br/>
+		Last Frost Date Range: {zone.zone_last_frost}
+            </blockquote>
+	)
+  }
+
+  displayZipError = () => {
+	return (
+	    <p className='zipUpdateError'>{this.state.zipUpdateStatus}</p>
+	)
+  }
+
+  renderZipForm = () => {
+	return(
+	  <div className='zipForm'>
+	    <form onSubmit={this.zipFormSubmit}>
+		<label>Enter a new zip code:</label>
+		&nbsp;<input type='text' name='zipcode' id='zipcode' placeholder='new zip code' required/> 
+		&nbsp;&nbsp;<input type='submit' value='update'/>&nbsp;&nbsp;
+		<button onClick={()=> this.hideZipForm()}>cancel</button>
+		<br/>
+		<span className='zip-note'>*please note, grow zones only support U.S. zip codes currently</span>
+		{this.state.zip_update_status !== "" ? this.displayZipError() : ''}
+	    </form>
+	  </div>
+	)
+  }
+
+  zipFormSubmit = (ev) => {
+	ev.preventDefault()
+	const form = ev.target
+	const data = new FormData(form)
+	const new_zipcode = data.get('zipcode')
+
+	if(new_zipcode.length !== 5){
+	    this.setState({zipFormShow:1, zipUpdateStatus: 'Please enter a valid US zipcode'})
 	}
 
-	showZipForm(){
-		this.setState({zipFormShow:1});
+	const validDigits = ['0','1','2','3','4','5','6','7','8','9']
+
+	for (var i = 0; i < new_zipcode.length; i++) {
+	    if( !validDigits.includes(new_zipcode[i]) ){
+		this.setState({zipFormShow:1,zipUpdateStatus: 'Please enter a valid US zipcode'})	
+	    }
 	}
+
+	this.updateUserZipcode(this.state.userId, new_zipcode)
+  }
+
   render(){
+	
     return(
 	<div className='accountpage'>
 	    <div className='account-content'>
 		<h4>Gardener Profile</h4>
-		<blockquote><strong>Your Zip Code: 95132</strong> <button onClick={()=> this.showZipForm()}>edit</button></blockquote>
-		{this.state.zipFormShow ? <div className='zipForm'><form>
-			<label>Enter a new zip code:</label>&nbsp;<input name='zipcode' id='zipcode' placeholder='new zip code'/> <button>update</button></form></div> : ''}
-		<div>
-
-		</div>
-		<blockquote><br/><br/>
-			<strong>Your Plant Hardiness Zone: 10a</strong>
-			<p>
-			Southern inland California, southern Florida and Hawaii are the three small areas where the average minimum winter temperature 
-			only falls between 30 to 40 degrees F. The ability of Zone 10 gardeners to avoid freezing temperatures is a huge bonus for winter 
-			gardening, but the extreme heat of the summer months limits planting possibilities.
-			</p>
-			<p>Zone 10a has a minimum average temperature of 30 to 35 degrees F</p>
-		</blockquote>
+		<blockquote><strong>Your Zip Code: {this.state.zipcode}</strong> <button onClick={()=> this.showZipForm()}>edit</button></blockquote>
+		{this.state.zipFormShow ? this.renderZipForm() : ''}
+		{this.state.zoneInfo !== '' ? this.renderZoneInfo() : '' }
 	    </div>
 	</div>
     )

@@ -1,9 +1,137 @@
 import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLeaf,faSun  } from '@fortawesome/free-solid-svg-icons';
+import config from '../config'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
 import './HomePage.css'
 
 class HomePage extends Component {
+  state = {
+    user_id: 1,
+    zipcode: '',
+    weather: '',
+    home_plant: {},
+  }
+
+  componentDidMount() {
+    this.getRandomPlant()
+    this.getZipcode()
+    this.getWeather()
+  }
+
+  getRandomPlant = () => {
+        const min = 1
+        const max = 20
+        const plant_id = Math.floor(Math.random() * (max - min + 1) + min)
+
+        fetch(`${config.API_ENDPOINT}/plants/plant/${plant_id}`,{
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            }
+	})
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status)
+          }
+          return res.json()
+        })
+        .then(
+          res => {
+            if(res){
+              this.setState({home_plant:res})
+            }
+          }
+        )
+        .catch()
+
+  }
+
+  getZipcode = () => {
+	fetch(`${config.API_ENDPOINT}/account/${this.state.user_id}`,{
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            }
+        })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status)
+          }
+          return res.json()
+        })
+        .then(
+          res => {
+            if(res){
+              this.setState({zipcode:res.zipcode})
+	      this.getWeather(res.zipcode)
+
+            }
+          }
+        )
+        .catch()
+  }
+
+  getWeather = (zipcode) => {
+    if( this.state.zipcode !== '' ){
+        fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${this.state.zipcode},us&appid=${config.OWM_API_KEY}&units=imperial`,{
+            method: 'GET',
+	    headers : { 
+	      'Accept': 'application/json'
+       	    }
+        })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(res.status)
+          }
+          return res.json()
+        })
+        .then(
+          res => {
+            if(res){
+              this.setState({weather:res})
+            }
+          }
+        )
+        .catch()
+    }
+  }
+
+  renderPlantInfoDisplay = () => {
+	const homepage_plant = this.state.home_plant
+	const img_url = `./images/${homepage_plant.image}`
+	return (
+            <section className='plant-of-the-day'>
+            	<strong className='home_section_title'>Plant Roulette: {homepage_plant.name}</strong>
+                <div>
+                    <div className='potd-img fa-pull-left'><img src={img_url} title={homepage_plant.name} alt={homepage_plant.name}/></div>
+		    <blockquote>{homepage_plant.description}</blockquote>
+		</div>
+            </section>
+	)
+  }
+
+  renderCurrentWeather = () => {
+    if( this.state.weather !== '' ){
+	const weather = this.state.weather
+	const current_temp = Math.ceil(weather.main.temp)
+	const feels_like = Math.ceil(weather.main.feels_like)
+	const icon = weather.weather[0].icon
+	const icon_url = `https://openweathermap.org/img/wn/${icon}@2x.png`
+	const icon_desc = weather.weather[0].description
+	return(
+            <section className='weather-today'>
+		<strong className='home_section_title'>Your Current Weather</strong><br/>
+		<div>
+                    <div className='weather-icon fa-pull-left'><img src={icon_url} title={icon_desc} alt={icon_desc}/></div>
+		    Location: {weather.name}<br/>
+   		    Currently: {current_temp}F<br/>
+		    Feels Like: {feels_like}F<br/>
+    		</div>
+            </section>
+	)
+    }
+  }
 
   render(){
     return(
@@ -21,33 +149,10 @@ class HomePage extends Component {
 		</blockquote>
 	    </div>
 
-		<section className='plant-of-the-day'>
-			<table>
-				<tbody>
-				<tr><td>Plant of the Day</td></tr>
-				<tr><td>
-				<div className='potd-img fa-pull-left'><FontAwesomeIcon icon={faLeaf} className='fa-5x' aria-hidden="true"/><br/>plant image</div>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a imperdiet urna. Phasellus ac ultricies dolor, ut finibus purus. 
-				Maecenas ac eros quis leo accumsan elementum. In ultricies ornare urna non euismod. Nulla ut rhoncus ipsum, id semper mi. 
-				In hac habitasse platea dictumst. Morbi vitae ultrices metus.
-				
-				<p>Aliquam malesuada nunc vitae interdum suscipit. Integer lectus dui, malesuada quis sollicitudin id, consectetur in nibh. Duis vel ornare tortor. Sed bibendum est sapien, malesuada
-				 tincidunt mi tincidunt ac. Nullam accumsan dolor velit. Donec massa tellus, tempus et nisl in, ullamcorper convallis lacus.</p>
+	    {this.state.home_plant ? this.renderPlantInfoDisplay() : '' }
 
-
-				</td></tr>
-				</tbody>
-			</table>
-		</section>
-		<section className='weather-today'>
-			<table>
-				<tbody>
-				<tr><td>Today's Weather</td></tr>
-				<tr><td><FontAwesomeIcon icon={faSun} className='fa-2x' aria-hidden="true"/> Sunny, probably.</td></tr>
-				</tbody>
-			</table>
-		</section>	
-		</div>
+	    {this.state.weather ? this.renderCurrentWeather() : '' }
+	</div>
     )
   }
 

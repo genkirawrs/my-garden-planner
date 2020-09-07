@@ -14,3 +14,13 @@ h4 {
 .fav-star-grey {
 	color:#666666;
 }
+
+.plant-card-page .potd-img {
+	width:210px;
+	height:210px;
+}
+
+.card-img img {
+	width:200px;
+	height:200px;
+}

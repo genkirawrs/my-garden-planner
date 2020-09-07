@@ -2,14 +2,26 @@
     background-color:#dddddd;
     border-radius:10px;
     width:100%;
+    display:inline-block;
 }
 
 .potd-img {
     border:1px solid black;
-    padding: 10px;
+    padding: 4px 5px 4px 5px;
     text-align:center;
     margin: 0px 10px 10px 0px;
-    
+    width: 140px;
+    height:140px;
+    display:inline-block;
+}
+
+.potd-img img {
+    width: 130px;
+    height:130px;
+}
+
+.home_section_title {
+    font-size:20px;
 }
 
 .weather-today {
@@ -17,4 +29,19 @@
     border-radius:10px;
     width:100%;
     margin-top:25px;
+}
+
+
+.weather-icon {
+    text-align:center;
+    margin: 0px 10px 10px 0px;
+    width: 60px;
+    height:60px;
+    display:inline-block;
+}
+
+
+.weather-icon img {
+	width:60px;
+	height:60px;
 }

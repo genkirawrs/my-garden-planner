@@ -28,11 +28,11 @@ class App extends Component {
 
                 <Route key='calendar' path='/calendar' component={CalendarPage}/>
 
-                <Route key='calendarNotes' path='/calendarNotes/:day' component={CalendarNotes}/>
+                <Route key='calendarNotes' path='/calendarNotes/:month/:day' component={CalendarNotes}/>
 
-		            <Route key='plantcard' path='/plantcard/:plantId' component={PlantCard}/>
+                <Route key='plantcard' path='/plantcard/:plantId' component={PlantCard}/>
 
-		            <Route key='account' path='/account' component={Account}/>
+                <Route key='account' path='/account' component={Account}/>
               </Switch>
         </main>
         <Footer/>

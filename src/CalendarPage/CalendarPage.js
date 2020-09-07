@@ -1,40 +1,125 @@
 import React, { Component } from 'react';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faStar  } from '@fortawesome/free-solid-svg-icons';
+import config from '../config';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare, faPenSquare  } from '@fortawesome/free-solid-svg-icons';
 
 
 import './CalendarPage.css';
 
 class CalendarPage extends Component {
   state = {
-    events: [],
+    notes: [],
     error: null,
     userId: 1,
-    month: 8,
-    next: 9,
-    prev: 7,
+    year: 0,
+    currMonth: 0,
+    next: 0,
+    next_max: 12,//limit it to the end of this year for now
+    prev: 0,
+    prev_min: 1,//limit it to beginning of this year for now
+    displayCal: 0,
   }
 
-  openCalNote(day){
-    this.props.history.push(`/calendarNotes/${day}`)
+  componentDidMount() {
+    const d = new Date();
+    const currMonth = d.getMonth() + 1
+    const next = currMonth + 1
+    const prev = currMonth - 1
+    const year = d.getFullYear()
+    this.setState({ year:year, currMonth:currMonth, next:next, prev:prev, displayCal: 1 })
+    this.getCalendarNotes(year, currMonth)
+  }
+
+  getCalendarNotes(year, month) {
+    let start = parseInt(`${year}${month}1`)
+    let lastDay = 32 - new Date(year, month+1, 32).getDate()
+    let end = parseInt(`${year}${month}${lastDay}`)
+
+    return fetch(`${config.API_ENDPOINT}/calendar/month/${this.state.userId}/${start}/${end}`, {
+     method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      }})
+      .then(res =>{
+        if(!res.ok){
+            throw new Error(res.status)
+        }
+        return res.json()
+      })
+      .then( res => {
+	let formattedNotes = []
+	res.forEach(note => {
+	    formattedNotes[note.day] = note
+	})
+	this.setState({notes: formattedNotes})
+      })
+      .catch(error => this.setState({error}))
+  }
+
+  formatCalNotes = (notes) => {
+
+  }
+
+  openCalNote = (month,day) => {
+    this.props.history.push(`/calendarNotes/${month}/${day}`)
+  }
+
+  renderCalLayout = (year, month) => {
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    let firstDay = new Date(`${month}-01-${year}`).getDay()
+    let lastDay = 32 - new Date(year, month+1, 32).getDate()
+    let monthName = monthNames[month-1]
+    let day = 1
+    let counter = 0
+    let rows = []
+
+     for (let i = 0; i < 6; i++) {
+	let cell = []
+	let rowId = `row_${i}`
+	for (let j = 0; j < 7; j++) {
+	    let dayId = `day_${day}`
+	    let dayNote = day
+	    let dayValue = `${year}${month}${day}`
+            if (i === 0 && j < firstDay) {
+		cell.push(<td className='day' key={counter}></td>)
+            }else if (day > lastDay) {
+                break;
+            }else {
+		if( this.state.notes[dayValue] ){
+		    cell.push(<td className='day' key={dayId}><div className='calDay'>{day}</div><button onClick={()=> this.openCalNote(month,dayNote)}><FontAwesomeIcon icon={faPenSquare} className='fa-1x' aria-hidden='true'/>View Notes</button></td>)
+		}else{
+		    cell.push(<td className='day' key={dayId}><div className='calDay'>{day}</div>
+			<button onClick={()=> this.openCalNote(month,dayNote)}><FontAwesomeIcon icon={faPlusSquare} className='fa-1x' aria-hidden='true'/>Add Note</button>
+		    </td>)
+	    	}
+                day++;
+            }
+	    counter++;
+        }
+	rows.push(<tr key={rowId}>{cell}</tr>)
+    }
+    return (
+      <div>
+	<h2>{monthName}</h2>
+	<table className='plantCalendar' width='100%'><tbody>
+	<tr><td className='dayHeader'>Sun</td><td className='dayHeader'>Mon</td><td className='dayHeader'>Tues</td><td className='dayHeader'>Wed</td><td className='dayHeader'>Thurs</td><td className='dayHeader'>Fri</td><td className='dayHeader'>Sat</td></tr>
+	{rows}
+	</tbody></table>
+      </div>
+    )
+  }
+
+  decodeHTMLEntities(text) {
+    var textArea = document.createElement('textarea')
+    textArea.innerHTML = text
+    return textArea.value
   }
 
   render(){
     return(
       <div className="calendar-page">
-        <h2>August</h2>
-        <table className='plantCalendar' width="100%">
-        <tbody>
-          <tr><td className='dayHeader'>Sun</td><td className='dayHeader'>Mon</td><td className='dayHeader'>Tues</td><td className='dayHeader'>Wed</td><td className='dayHeader'>Thurs</td><td className='dayHeader'>Fri</td><td className='dayHeader'>Sat</td></tr>
-          <tr><td className='day'></td><td className='day'></td><td className='day'></td><td className='day'></td><td className='day'></td><td className='day'></td><td className='day' onClick={()=> this.openCalNote(1)}><div className='calDay'>1</div></td></tr>
-          <tr><td className='day' onClick={()=> this.openCalNote(2)}><div className='calDay'>2</div></td><td className='day' onClick={()=> this.openCalNote(3)}><div className='calDay'>3</div>View Notes</td><td className='day' onClick={()=> this.openCalNote(4)}><div className='calDay'>4</div></td><td className='day'><div className='calDay' onClick={()=> this.openCalNote(5)}>5</div></td><td className='day' onClick={()=> this.openCalNote(6)}><div className='calDay'>6</div></td><td className='day' onClick={()=> this.openCalNote(7)}><div className='calDay'>7</div></td><td className='day' onClick={()=> this.openCalNote(8)}><div className='calDay'>8</div></td></tr>
-          <tr><td className='day' onClick={()=> this.openCalNote(9)}><div className='calDay'>9</div></td><td className='day' onClick={()=> this.openCalNote(10)}><div className='calDay'>10</div></td><td className='day' onClick={()=> this.openCalNote(11)}><div className='calDay'>11</div></td><td className='day'><div className='calDay' onClick={()=> this.openCalNote(12)}>12</div></td><td className='day' onClick={()=> this.openCalNote(13)}><div className='calDay'>13</div></td><td className='day' onClick={()=> this.openCalNote(14)}><div className='calDay'>14</div></td><td className='day' onClick={()=> this.openCalNote(15)}><div className='calDay'>15</div></td></tr>
-          <tr><td className='day' onClick={()=> this.openCalNote(16)}><div className='calDay'>16</div></td><td className='day' onClick={()=> this.openCalNote(17)}><div className='calDay'>17</div></td><td className='day' onClick={()=> this.openCalNote(18)}><div className='calDay'>18</div></td><td className='day'><div className='calDay' onClick={()=> this.openCalNote(19)}>19</div></td><td className='day' onClick={()=> this.openCalNote(20)}><div className='calDay'>20</div></td><td className='day' onClick={()=> this.openCalNote(21)}><div className='calDay'>21</div></td><td className='day' onClick={()=> this.openCalNote(22)}><div className='calDay'>22</div></td></tr>
-          <tr><td className='day' onClick={()=> this.openCalNote(23)}><div className='calDay'>23</div></td><td className='day' onClick={()=> this.openCalNote(24)}><div className='calDay'>24</div></td><td className='day' onClick={()=> this.openCalNote(25)}><div className='calDay'>25</div></td><td className='day'><div className='calDay' onClick={()=> this.openCalNote(26)}>26</div></td><td className='day' onClick={()=> this.openCalNote(27)}><div className='calDay'>27</div></td><td className='day' onClick={()=> this.openCalNote(28)}><div className='calDay'>28</div></td><td className='day' onClick={()=> this.openCalNote(29)}><div className='calDay'>29</div></td></tr>
-          <tr><td className='day' onClick={()=> this.openCalNote(29)}><div className='calDay'>29</div></td><td className='day' onClick={()=> this.openCalNote(31)}><div className='calDay'>31</div></td><td className='day'></td><td className='day'></td><td className='day'></td><td className='day'></td><td className='day'></td></tr>
-
-        </tbody>
-        </table>
+	{ this.state.displayCal === 1 ? this.renderCalLayout(this.state.year,this.state.currMonth) : ''}
 
       </div>
     )
