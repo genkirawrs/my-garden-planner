@@ -114,14 +114,16 @@ class PlantCardPage extends Component {
 	let notes = favInfo.notes
 	if( notes ===  null ){
 	    notes = ''
+	}else{
+	    notes = this.decodeHtml(notes)
 	}
-console.log(favInfo);
+	
 	return (
 	    <blockquote> 
 	    
             <div id='currentNotes'>
               { favInfo.notes !== '' ? <h3>Current Notes</h3> : ''}
-	      {favInfo.notes}
+	      {notes}
 	      <br/><br/>
             </div>
 	    <form onSubmit={this.favFormSubmit}>
@@ -163,6 +165,12 @@ console.log(favInfo);
                 this.setState({noteUpdateStatus: 'Sorry, there was an error. Please try again later.'})
             }
         })
+  }
+
+  decodeHtml = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
   }
 
   render(){

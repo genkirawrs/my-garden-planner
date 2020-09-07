@@ -125,10 +125,16 @@ class CalendarNotes extends Component {
         }
       })
       .then(()=>{
-        this.setState({noteUpdateStatus:'Notes Deleted!'})
+        this.setState({noteUpdateStatus:'Notes Deleted!', notes:[],notesId: 0})
 	this.getDayNotes()
       })
       .catch()
+  }
+
+  decodeHtml = (html) => {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
   }
 
   render(){
@@ -139,7 +145,7 @@ class CalendarNotes extends Component {
         <h2>{monthTitle} {this.state.day}'s Notes</h2>
 
         <blockquote id='currentNotes'>
-          { notes.length > 0 ? notes[0].notes : 'No notes yet!'}
+          { notes.length > 0 ? this.decodeHtml(notes[0].notes) : 'No notes yet!'}
         </blockquote>
 
         <blockquote className='addNoteContainer'>
