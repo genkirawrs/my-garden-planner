@@ -65,10 +65,16 @@ class AccountPage extends Component {
       .then(res =>{
         if(!res.ok){
             throw new Error(res.status)
-        } 
-        return res.json()
+        }
+	if( res.status === 200){
+	    return res.json()
+	}else{
+	    return ''
+	}
       })
-      .then( res => this.setZone(res))
+      .then(res => {
+	this.setZone(res)
+      })
       .catch()
     }
   }
@@ -92,6 +98,8 @@ class AccountPage extends Component {
 
   renderZoneInfo = () => {
 	const zone = this.state.zoneInfo
+	
+     if( zone !== '' ){
 	return(
             <blockquote><br/><br/>
                 <strong>Your Plant Hardiness Zone: {zone.zone}</strong>
@@ -101,6 +109,9 @@ class AccountPage extends Component {
 		Last Frost Date Range: {zone.zone_last_frost}
             </blockquote>
 	)
+    }else{
+	return (<blockquote><strong>Sorry, no grow zone information found for your zip code</strong></blockquote>)
+    }
   }
 
   displayZipError = () => {
@@ -147,14 +158,13 @@ class AccountPage extends Component {
   }
 
   render(){
-	
     return(
 	<div className='accountpage'>
 	    <div className='account-content'>
 		<h4>Gardener Profile</h4>
 		<blockquote><strong>Your Zip Code: {this.state.zipcode}</strong> <button onClick={()=> this.showZipForm()}>edit</button></blockquote>
 		{this.state.zipFormShow ? this.renderZipForm() : ''}
-		{this.state.zoneInfo !== '' ? this.renderZoneInfo() : '' }
+		{this.state.zoneInfo !== '' ? this.renderZoneInfo() : <blockquote><strong>Sorry, no grow zone information found for your zip code</strong></blockquote> }
 	    </div>
 	</div>
     )
