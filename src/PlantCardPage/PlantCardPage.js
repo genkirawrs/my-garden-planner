@@ -112,27 +112,34 @@ class PlantCardPage extends Component {
   renderFavNotes = () => {
     const favInfo = this.state.favInfo
 	let notes = favInfo.notes
-	if( notes ===  null ){
-	    notes = ''
-	}else{
+	if( notes !==  null || notes !== ''){
 	    notes = this.decodeHtml(notes)
+	    notes = this.renderCurrentNotes(notes)
+	}else{
+	    notes = ''
 	}
 	
 	return (
-	    <blockquote> 
+	    <div className='plant-card-notes'> 
 	    
-            <div id='currentNotes'>
-              { favInfo.notes !== '' ? <h3>Current Notes</h3> : ''}
-	      {notes}
-	      <br/><br/>
-            </div>
+            { favInfo.notes !== '' ? notes : ''}
 	    <form onSubmit={this.favFormSubmit}>
 		{ favInfo.notes !== '' ? <h3>Notes</h3> : <h3>You've added this plant to your favorites, would you like to add any notes?</h3>}
 		<textarea className='addNoteField' name='favNotesField' id='favNotesField' defaultValue={favInfo.notes}></textarea>
-		<br/><input type='submit' value='Save Notes'/>
+		<br/><input type='submit' value='Save Notes' className='submit-button'/>
 		<br/>{this.state.noteUpdateStatus !== "" ? this.state.noteUpdateStatus : ''}
 	    </form>
-	    </blockquote>
+	    </div>
+	)
+  }
+
+  renderCurrentNotes = (notes) => {
+	return(
+	    <div id='currentNotes'>
+		<h3>Current Notes</h3>
+		{notes}
+		<br/><br/>
+	    </div>
 	)
   }
 
@@ -179,28 +186,28 @@ class PlantCardPage extends Component {
 	plant = plant[0]
 
       const image = `/images/${plant.image}`
-      let star = <FontAwesomeIcon icon={faStar} className='fa-1x fav-star-grey' aria-hidden="true"/>
-      let favButton = <button onClick={()=>this.setFav()}>Add to Favorites</button>
+      let star = <FontAwesomeIcon icon={faStar} className='fa-1x fav-star-grey' aria-hidden='true'/>
+      let favButton = <button className='fav-button' onClick={()=>this.setFav()}>Add to Fav</button>
 
       if(this.state.isFav === 1 ){
-        star = <FontAwesomeIcon icon={faStar} className='fa-1x fav-star-gold' aria-hidden="true"/>
-	favButton = <button onClick={() => this.removeFav()}>Delete Favorite</button>
+        star = <FontAwesomeIcon icon={faStar} className='fa-1x fav-star-gold' aria-hidden='true'/>
+	favButton = <button className='fav-button' onClick={() => this.removeFav()}>Delete Fav</button>
       }
 
       return(
         <div className='plant-card-page'>
           <h2>{star}{plant.name}&nbsp;&nbsp;&nbsp;{favButton}</h2>
-          <blockquote>
-          <div className='potd-img card-img fa-pull-left'><img src={image} title={plant.name} alt={plant.name}/></div>
+            <div className='plant-card-content'>
+                <div className='card-img'><img src={image} title={plant.name} alt={plant.name}/></div>
+		<div className='card-summary'>
 		{plant.description}
 		<p>Plant Type: {plant.plant_type}</p>
 		<p>Sun Requirements: {plant.sun}</p>
 		<p>Ideal Grow Zones: {plant.zones}</p>
 		<p>Soil Preferences: {plant.soil}</p>
-          </blockquote>
-          <blockquote>
+		</div>
+	    </div>
             { this.state.isFav === 1 ? this.renderFavNotes() : '' }
-          </blockquote>
         </div>
       )
     }else{

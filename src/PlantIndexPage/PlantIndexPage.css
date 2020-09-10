@@ -1,20 +1,31 @@
 .plant-index-page {
-		width:100%;
-		padding:10px;
+    width:100%;
+    padding:10px;
 }
 
 .plant-index-page section {
-	display:flex;
-	width:100%;
-	flex-wrap:wrap;
-	padding:0px;
+    background-color:transparent;
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+    padding:0px;
+    margin-top:10px;
 }
+
+button {
+    padding:8px;
+    font-size:16px;
+}
+
 .plantThumb {
-	width:47%;
-	border:1px solid black;
-	margin:5px;
-	padding:5px;
-	position:relative;
+    width:95%;
+    border:1px solid black;
+    margin:5px;
+    padding:5px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
 }
 
 .plant-img {
@@ -28,29 +39,36 @@
 }
 
 .plant-img img {
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
 }
 
 .favStar {
-	position:absolute;
-	top:3px;
-	right:1px;
+    position:absolute;
+    top:3px;
+    right:1px;
 }
 
 .fav-star-gold{
-	color:#fcba04;
+    color:#fcba04;
 }
 
 .fav-star-grey {
-	color:#666666;
+    color:#666666;
+}
+
+
+@media screen and (min-width:500px){
+    .plantThumb {
+	width:48%;
+    }
 }
 
 
 @media screen and (min-width:750px){
-	.plantThumb {
-		width:32%;
-	}
+    .plantThumb {
+        width:32%;
+    }
 }
 
 

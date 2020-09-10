@@ -1,43 +1,77 @@
 * {
     box-sizing: border-box;
-  }
-  
-  .App {
-      display:flex;
-      flex-direction:column;
-      width:100%;
-      max-width:800px;
-      min-width:350px;
-      margin:auto;
-  }
-  
-  .App a, .App a:visited, .App a:focus, .App a:active {
-      text-decoration:none;
-      color: black;
-  }
-  
-  .App a:hover {
-      color:#666666;
-      text-decoration:none;
-  }
-  
-  main {
-      display:flex;
-      margin-bottom:25px;
-  }
-  
-  section {
-      padding:20px;
-      width:75%;
-      background-color:#f7f7f7;
-  }
-  
-  ul {
-      list-style:none;
-      margin-block-start: 0;
-      margin-block-end: 0;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-      padding-inline-start: 0px;
-  }
-  
+}
+
+h1 {
+    font-size: 34px;
+    font-weight:bold;
+    color:#386641;
+}
+
+.App h1 a, .App h1 a:visited, .App h1 a:focus, .App h1 a:active {
+    color:#386641;
+}
+
+.App h1 a:hover {
+    color:#6A994E;
+}
+
+.App {
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    max-width:800px;
+    min-width:350px;
+    margin:auto;
+    padding-bottom:25px;
+}
+
+.App a, .App a:visited, .App a:focus, .App a:active {
+    text-decoration:none;
+    color: black;
+}
+
+.App a:hover {
+    color:#6A994E;
+    text-decoration:none;
+}
+
+main {
+    display:flex;
+    margin-bottom:25px;
+}
+
+section {
+    padding:20px;
+    width:95%;
+    background-color:#DAD2D8;
+    font-size:16px;
+    line-height:22px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+ul {
+    list-style:none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+}
+
+.success-msg {
+    color:#31572C;
+    padding:20px 0px 10px 0px;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.error-msg {
+    color:#69140E;
+    padding:20px 0px 10px 0px;
+    font-weight:bold;
+    font-size:20px;
+}
+
+

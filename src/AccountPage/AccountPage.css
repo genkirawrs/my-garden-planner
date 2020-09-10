@@ -1,5 +1,35 @@
+.accountpage button {
+    padding:5px;
+    margin-left:20px;
+}
+
+.submit-button {
+    padding:5px;
+    background-color:#A7C957;
+}
+
+.cancel-button {
+   margin-left:5px;
+   color:#d90429;
+   font-weight:bold;
+}
+
+.zipcode-input {
+    padding:5px;
+    font-size:16px;
+}
+
+.account-zipcode {
+    margin-left:10px;
+}
+
 .zipForm {
-    margin-left:50px;
+    margin-left:25px;
+    margin-top:25px;
+}
+
+.zipForm label {
+    font-size:16px;
 }
 
 .zip-note {
@@ -12,3 +42,10 @@
     color:red;
     font-size:12px;
 }
+
+.hardiness-zone {
+    font-size:16px;
+    margin: 10px;
+    line-height:20px;
+}
+

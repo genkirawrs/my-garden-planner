@@ -87,10 +87,10 @@ class CalendarPage extends Component {
                 break;
             }else {
 		if( this.state.notes[dayValue] ){
-		    cell.push(<td className='day' key={dayId}><div className='calDay'>{day}</div><button onClick={()=> this.openCalNote(month,dayNote)}><FontAwesomeIcon icon={faPenSquare} className='fa-1x' aria-hidden='true'/>View Notes</button></td>)
+		    cell.push(<td className='day' key={dayId}><div className='calDay'>{day}</div><button onClick={()=> this.openCalNote(month,dayNote)} className='view-notes'><FontAwesomeIcon icon={faPenSquare} className='fa-1x cal-icon view' aria-hidden='true'/>View Notes</button></td>)
 		}else{
 		    cell.push(<td className='day' key={dayId}><div className='calDay'>{day}</div>
-			<button onClick={()=> this.openCalNote(month,dayNote)}><FontAwesomeIcon icon={faPlusSquare} className='fa-1x' aria-hidden='true'/>Add Note</button>
+			<button onClick={()=> this.openCalNote(month,dayNote)}><FontAwesomeIcon icon={faPlusSquare} className='fa-1x cal-icon' aria-hidden='true'/>Add Note</button>
 		    </td>)
 	    	}
                 day++;

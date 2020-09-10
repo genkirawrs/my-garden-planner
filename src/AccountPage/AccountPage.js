@@ -101,13 +101,13 @@ class AccountPage extends Component {
 	
      if( zone !== '' ){
 	return(
-            <blockquote><br/><br/>
+            <div className='hardiness-zone'><br/><br/>
                 <strong>Your Plant Hardiness Zone: {zone.zone}</strong>
 		<p>{zone.zone_description}</p>
-		Zone Hardy to about: {zone.zone_hardiness}<br/><br/>
-		First Frost Date Range: {zone.zone_first_frost}<br/><br/>
-		Last Frost Date Range: {zone.zone_last_frost}
-            </blockquote>
+		<p>Zone Hardy to about: {zone.zone_hardiness}</p>
+		<p>First Frost Date Range: {zone.zone_first_frost}</p>
+		<p>Last Frost Date Range: {zone.zone_last_frost}</p>
+            </div>
 	)
     }else{
 	return (<blockquote><strong>Sorry, no grow zone information found for your zip code</strong></blockquote>)
@@ -125,9 +125,9 @@ class AccountPage extends Component {
 	  <div className='zipForm'>
 	    <form onSubmit={this.zipFormSubmit}>
 		<label>Enter a new zip code:</label>
-		&nbsp;<input type='text' name='zipcode' id='zipcode' placeholder='new zip code' required/> 
-		&nbsp;&nbsp;<input type='submit' value='update'/>&nbsp;&nbsp;
-		<button onClick={()=> this.hideZipForm()}>cancel</button>
+		<br/><input type='text' className='zipcode-input' name='zipcode' id='zipcode' placeholder='new zip code' required/> 
+		&nbsp;&nbsp;<input type='submit' value='update' className='submit-button'/>
+		<button onClick={()=> this.hideZipForm()} className='cancel-button'>cancel</button>
 		<br/>
 		<span className='zip-note'>*please note, grow zones only support U.S. zip codes currently</span>
 		{this.state.zip_update_status !== "" ? this.displayZipError() : ''}
@@ -151,6 +151,7 @@ class AccountPage extends Component {
 	for (var i = 0; i < new_zipcode.length; i++) {
 	    if( !validDigits.includes(new_zipcode[i]) ){
 		this.setState({zipFormShow:1,zipUpdateStatus: 'Please enter a valid US zipcode'})	
+		return;
 	    }
 	}
 
@@ -162,7 +163,7 @@ class AccountPage extends Component {
 	<div className='accountpage'>
 	    <div className='account-content'>
 		<h4>Gardener Profile</h4>
-		<blockquote><strong>Your Zip Code: {this.state.zipcode}</strong> <button onClick={()=> this.showZipForm()}>edit</button></blockquote>
+		<div className='account-zipcode'><strong>Your Zip Code: {this.state.zipcode}</strong> <button onClick={()=> this.showZipForm()}>edit</button></div>
 		{this.state.zipFormShow ? this.renderZipForm() : ''}
 		{this.state.zoneInfo !== '' ? this.renderZoneInfo() : <blockquote><strong>Sorry, no grow zone information found for your zip code</strong></blockquote> }
 	    </div>

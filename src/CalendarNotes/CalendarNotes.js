@@ -12,6 +12,7 @@ class CalendarNotes extends Component {
     month: parseInt(this.props.match.params.month),
     day: this.props.match.params.day,
     noteUpdateStatus: '',
+    noteUpdateStyle:'',
   }
 
   displayMonthName = () => {
@@ -76,10 +77,10 @@ class CalendarNotes extends Component {
 	        throw new Error(res.status)
             }
             if(res.status === 204){
-                this.setState({noteUpdateStatus:'Notes Saved!'})
+                this.setState({noteUpdateStyle: 'success-msg', noteUpdateStatus:'Notes Saved!'})
                 this.getDayNotes()
             }else{
-                this.setState({noteUpdateStatus: 'Sorry, there was an error. Please try again later.'})
+                this.setState({noteUpdateStyle: 'error-msg',noteUpdateStatus: 'Sorry, there was an error. Please try again later.'})
             }
 	})
     }else{
@@ -102,7 +103,7 @@ class CalendarNotes extends Component {
             return res.json()
         })
         .then( res => {
-	    this.setState({noteUpdateStatus:'Notes Saved!'})
+	    this.setState({noteUpdateStyle:'success-msg',noteUpdateStatus:'Notes Saved!'})
 	    this.getDayNotes()
 	})
         .catch(error => this.setState({error}))
@@ -125,7 +126,7 @@ class CalendarNotes extends Component {
         }
       })
       .then(()=>{
-        this.setState({noteUpdateStatus:'Notes Deleted!', notes:[],notesId: 0})
+        this.setState({noteUpdateStyle:'success-msg', noteUpdateStatus:'Notes Deleted!', notes:[],notesId: 0})
 	this.getDayNotes()
       })
       .catch()
@@ -135,6 +136,12 @@ class CalendarNotes extends Component {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
+  }
+
+  renderNoteStatus = () => {
+    return (
+	<div className={this.state.noteUpdateStyle}>{this.state.noteUpdateStatus}</div>
+    )
   }
 
   render(){
@@ -148,18 +155,18 @@ class CalendarNotes extends Component {
           { notes.length > 0 ? this.decodeHtml(notes[0].notes) : 'No notes yet!'}
         </blockquote>
 
-        <blockquote className='addNoteContainer'>
+        <section>
             <form onSubmit={this.noteFormSubmit}>
-                <label><h3>Notes:</h3></label>
-		<textarea className='addNoteField' id='addNoteField' name='addNoteField' defaultValue={notes.length > 0 ? notes[0].notes : ''}>
+                <label htmlFor='addNoteField'>Edit Notes:</label>
+		<textarea className='addNoteField' id='addNoteField' name='addNoteField' defaultValue={notes.length > 0 ? this.decodeHtml(notes[0].notes) : ''}>
 		</textarea>
-                <br/><input type='submit' value='Save Notes'/>&nbsp;&nbsp;&nbsp;
-		{ this.state.notesId > 0 ? <button onClick={()=>this.deleteCalNote()}>Delete Note</button> : '' }
+                <br/><input type='submit' value='Save Notes' className='save-button'/>&nbsp;&nbsp;&nbsp;
+		{ this.state.notesId > 0 ? <button onClick={()=>this.deleteCalNote()} className='delete-button'>Delete Note</button> : '' }
                 <br/>
-                {this.state.noteUpdateStatus !== "" ? this.state.noteUpdateStatus : ''}
+                {this.state.noteUpdateStatus !== "" ? this.renderNoteStatus() : ''}
             </form>
 
-        </blockquote>
+        </section>
       </div>
     )
   }

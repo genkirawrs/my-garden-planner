@@ -3,7 +3,7 @@
 }
 
 nav {
-    background-color:#e7e7e7;
+    background-color:#A7C957;
     padding: 5px;
 }
 
@@ -12,6 +12,10 @@ nav ul {
     display:flex;
     justify-content:space-evenly;
     align-items:center;
+}
+
+nav ul li {
+    white-space:nowrap;
 }
 
 nav ul li a {

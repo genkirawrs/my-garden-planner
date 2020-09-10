@@ -14,12 +14,14 @@ import Account from './AccountPage/AccountPage';
 import './App.css';
 
 class App extends Component {
-
   render(){
+        const pathname = window.location.pathname.substr(1)
+        let path = (pathname.length > 0) ? pathname : 'home'
+
     return (
       <div className='App'>
         <Header/>
-        <Nav/>
+        <Nav pathname={path}/>
         <main>
               <Switch>
                 <Route exact path='/' key='home' component={HomePage}/>

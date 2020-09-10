@@ -1,7 +1,23 @@
+.demo-explanation {
+    background-color:transparent;
+    padding:10px;
+    border:3px solid #386641;
+    margin-top:15px;
+    border-radius: 10px;
+    margin-bottom:15px;
+}
+
+.homepage h4 {
+    margin-left:0px;
+    margin-block-start: .5em;
+}
+
 .plant-of-the-day {
-    background-color:#dddddd;
     border-radius:10px;
-    width:100%;
+}
+
+.potd-content {
+    margin-top:10px;
     display:inline-block;
 }
 
@@ -20,17 +36,18 @@
     height:130px;
 }
 
-.home_section_title {
+.home-section-title {
     font-size:20px;
 }
 
 .weather-today {
-    background-color:#d6d6d6;
     border-radius:10px;
-    width:100%;
-    margin-top:25px;
+    margin-top:15px;
 }
 
+.weather-today ul {
+    margin-top:10px;
+}
 
 .weather-icon {
     text-align:center;

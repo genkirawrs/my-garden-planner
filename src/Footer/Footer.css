@@ -1,6 +1,6 @@
 footer {
 	margin-top:15px;
-	background-color:#cccccc;
+	background-color:#A7C957;
 	font-size:11px;
 	padding:10px;
 	bottom:0px;
@@ -9,10 +9,8 @@ footer {
 	display:flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.footer div {
-
+	position:fixed;
+	
 }
 
 .svg-inline--fa {

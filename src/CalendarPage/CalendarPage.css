@@ -3,6 +3,7 @@
 	padding:10px;	
 }
 
+
 h4 {
     font-size:24px;
 	margin-left:10px;
@@ -14,9 +15,10 @@ h4 {
 }
 
 td.dayHeader {
-	background-color:#666666;
+	background-color:#0D1B2A;
 	color:white;
 	padding:5px;
+	font-weight:bold;
 }
 
 td.day {
@@ -33,4 +35,40 @@ td.day {
 	width:15px;
 	height:15px;
 }
+
+.calendar-page button {
+    font-size:12px;
+    text-align:center;
+    margin-top:17px;
+    padding:4px;
+}
+
+.cal-icon {
+    font-size:2em;
+    margin-right:0px;
+}
+
+.cal-icon.view {
+    background-color:#A7C957;
+}
+
+button.view-notes {
+    border:1px solid black;
+    border-radius:3px;
+    background-color:#A7C957;
+}
+
+
+@media screen and (min-width:500px){
+    .calendar-page button {
+	font-size:12px;
+	white-space:nowrap;
+	padding:3px;
+    }
+    .cal-icon {
+	margin-right:3px;
+	font-size:1em;
+    }
+}
+
 

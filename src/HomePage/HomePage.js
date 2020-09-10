@@ -102,10 +102,10 @@ class HomePage extends Component {
 	const img_url = `./images/${homepage_plant.image}`
 	return (
             <section className='plant-of-the-day'>
-            	<strong className='home_section_title'>Plant Roulette: {homepage_plant.name}</strong>
-                <div>
+            	<strong className='home-section-title'>Plant Roulette: {homepage_plant.name}</strong>
+                <div className='potd-content'>
                     <div className='potd-img fa-pull-left'><img src={img_url} title={homepage_plant.name} alt={homepage_plant.name}/></div>
-		    <blockquote>{homepage_plant.description}</blockquote>
+		    <p>{homepage_plant.description}</p>
 		</div>
             </section>
 	)
@@ -121,12 +121,14 @@ class HomePage extends Component {
 	const icon_desc = weather.weather[0].description
 	return(
             <section className='weather-today'>
-		<strong className='home_section_title'>Your Current Weather</strong><br/>
+		<strong className='home-section-title'>Your Current Weather</strong><br/>
 		<div>
                     <div className='weather-icon fa-pull-left'><img src={icon_url} title={icon_desc} alt={icon_desc}/></div>
-		    Location: {weather.name}<br/>
-   		    Currently: {current_temp}F<br/>
-		    Feels Like: {feels_like}F<br/>
+		    <ul>
+  		        <li>Location: {weather.name}</li>
+   		        <li>Currently: {current_temp}F</li>
+		        <li>Feels Like: {feels_like}F</li>
+		    </ul>
     		</div>
             </section>
 	)
@@ -136,18 +138,19 @@ class HomePage extends Component {
   render(){
     return(
 	<div className='homepage'>
-	    <div className='home-content'>
+	    <section className='demo-explanation'>
 		<h4>Welcome to our Demo!</h4>
-		<blockquote><strong>What can this garden planner do for you?</strong><br/></blockquote>
-		<blockquote>
+		<p>
+			<strong>What can this garden planner do for you?</strong>
+			<br/>
 			Whether you're a new gardener looking for a place to get started or an experienced green thumb in need of inspiration - try My Garden 
 			Planner out! Set your zip code to view your local weather forecast and plant hardiness zone. Take a look through our plant gallery for 
 			inspiration and add any to your favorites list. Use our calendar to plan out your garden's planting and care schedule. 
-		</blockquote>
-		<blockquote>
+		</p>
+		<p>
 		My Garden Planner's goal is to help take the logistics out of gardening so you can get to the fun stuff :)
-		</blockquote>
-	    </div>
+		</p>
+	    </section>
 
 	    {this.state.home_plant ? this.renderPlantInfoDisplay() : '' }
 

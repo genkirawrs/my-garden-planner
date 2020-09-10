@@ -129,11 +129,13 @@ class PlantIndexPage extends Component {
 
 	    return(
 		<div key={plant.id} className='plantThumb' onClick={()=>this.viewPlantInfo(plant.id)}>
+		  <div>
 	          <div className='plant-img fa-pull-left'><img src={image} title={plant.name} alt={plant.name}/></div>
         	  <div className='favStar'><FontAwesomeIcon icon={faStar} className={starClass} aria-hidden="true"/></div>
 	          <div className='plant-title'><strong>{plant.name}</strong></div>
 		  {snippet}...
         	  <br/><br/>
+		  </div>
 	          <button onClick={()=>this.viewPlantInfo(plant.id)}>read more >></button>
         	  </div>
 	    )
