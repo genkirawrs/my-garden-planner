@@ -12,27 +12,27 @@ To provide a clean and lightweight garden planning resource that can help keep t
 ## Screenshots
 Homepage:
 
-![Home Page](./screenshots/ss_homepage.png)
+![Home Page](src/screenshots/ss_homepage.png)
 
 View Calendar:
 
-![Calendar Page](./screenshots/ss_calendar.png)
+![Calendar Page](src/screenshots/ss_calendar.png)
 
 Calendar, View/Add/Delete Notes:
 
-![Calendar Notes by Day Page](./screenshots/ss_calendar_notes.png)
+![Calendar Notes by Day Page](src/screenshots/ss_calendar_notes.png)
 
 Plant Gallery:
 
-![Plant Gallery](./screenshots/plants.png)
+![Plant Gallery](src/screenshots/plants.png)
 
 Plant Detail Page:
 
-![Plant Detail Page](./screenshots/ss_plants.png)
+![Plant Detail Page](src/screenshots/ss_plants.png)
 
 Account Page:
 
-![Account Page](./screenshots/ss_account.png)
+![Account Page](src/screenshots/ss_account.png)
 
 
 ## Built With
