@@ -24,11 +24,15 @@ Calendar, View/Add/Delete Notes:
 
 Plant Gallery:
 
-![Plant Gallery](src/screenshots/plants.png)
+![Plant Gallery](src/screenshots/ss_plants.png)
+
+Plant Gallery, Filtered:
+
+![Filtered Plant Galler](src/screenshots/ss_plant_filtered.png)
 
 Plant Detail Page:
 
-![Plant Detail Page](src/screenshots/ss_plants.png)
+![Plant Detail Page](src/screenshots/ss_plants_notes.png)
 
 Account Page:
 
