@@ -56,3 +56,8 @@ Account Page:
 ## Demo
 
 - [Live Demo](https://https://my-garden-planner.vercel.app/)
+
+## Future Features
+
+- 5 day weather forecasting
+- some form of note formatting support
