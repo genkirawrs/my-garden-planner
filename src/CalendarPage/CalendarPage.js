@@ -67,7 +67,12 @@ class CalendarPage extends Component {
 
   renderCalLayout = (year, month) => {
     const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December']
-    let firstDay = new Date(`${month}-01-${year}`).getDay()
+    let dateString = `${month}/01/${year}`;
+
+    if( month < 10 ){
+	dateString = `0${month}/01/${year}`;
+    }
+    let firstDay = new Date(dateString).getDay()
     let lastDay = 32 - new Date(year, month+1, 32).getDate()
     let monthName = monthNames[month-1]
     let day = 1
